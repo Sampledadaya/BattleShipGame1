@@ -1,0 +1,60 @@
+<!-- game.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sea Battle</title>
+    <style>
+        table { border-collapse: collapse; }
+        td { width: 30px; height: 30px; text-align: center; border: 1px solid black; }
+    </style>
+</head>
+<body>
+    <h1>Морской бой</h1>
+    <h2>Игровое поле игрока</h2>
+    <table>
+        {% for row in game.player_field %}
+        <tr>
+            {% for cell in row %}
+            <td>
+                {% if cell == 2 %}
+                    X
+                {% elif cell == 1 %}
+                    O
+                {% else %}
+                    .
+                {% endif %}
+            </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Поле компьютера</h2>
+    <table>
+        {% for row in game.player_shots %}
+        <tr>
+            {% for cell in row %}
+            <td>
+                {% if cell == 1 %}
+                    X
+                {% else %}
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="row" value="{{ forloop.parentloop.counter0 }}">
+                        <input type="hidden" name="col" value="{{ forloop.counter0 }}">
+                        <button type="submit">Shoot</button>
+                    </form>
+                {% endif %}
+            </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+
+    {% if game.game_over %}
+        <h2>Игра окончена. Победитель: {{ game.winner }}</h2>
+        <a href="{% url 'index' %}">Начать новую игру</a>
+    {% endif %}
+</body>
+</html>
