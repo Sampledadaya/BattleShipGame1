@@ -1,16 +1,53 @@
 <!-- game.html -->
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sea Battle</title>
     <style>
-        table { border-collapse: collapse; }
-        td { width: 30px; height: 30px; text-align: center; border: 1px solid black; }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+        h1, h2 {
+            color: #007BFF; /* Синий цвет для заголовков */
+        }
+        table {
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        td {
+            width: 30px;
+            height: 30px;
+            text-align: center;
+            border: 1px solid black;
+        }
+        button {
+            background-color: #007BFF; /* Синий фон для кнопки */
+            color: white; /* Белый текст */
+            border: none;
+            border-radius: 5px; /* Скругленные углы */
+            padding: 5px 10px;
+            cursor: pointer; /* Указатель на кнопку */
+        }
+        button:hover {
+            background-color: #0056b3; /* Темнее синий при наведении */
+        }
+        .hit {
+            background-color: #ffcccc; /* Цвет для попадания */
+        }
+        .miss {
+            background-color: #ccffcc; /* Цвет для промаха */
+        }
     </style>
 </head>
 <body>
     <h1>Морской бой</h1>
+
     <h2>Игровое поле игрока</h2>
     <table>
         {% for row in game.player_field %}
@@ -36,8 +73,10 @@
         <tr>
             {% for cell in row %}
             <td>
-                {% if cell == 1 %}
-                    X
+                {% if cell == 2 %}
+                    <span class="hit">X</span>  <!-- Попадание -->
+                {% elif cell == 3 %}
+                    <span class="miss">O</span>  <!-- Промах -->
                 {% else %}
                     <form method="post">
                         {% csrf_token %}

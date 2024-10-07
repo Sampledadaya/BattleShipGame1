@@ -55,6 +55,7 @@ def game_view(request, game_id):
     return render(request, 'game.html', {'game': game})
 
 
+
 def computer_shot(game):
     # Компьютер делает ход с шансом 50% на победу
     while not game.is_player_turn and not game.game_over:
